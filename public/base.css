@@ -1,0 +1,54 @@
+.stars {
+	margin: 50px;
+	text-align: center;
+}
+
+.stargrey {
+	/* color: white; */
+    color: black ;
+
+}
+
+.yellow {
+	color: #fedc18;
+}
+
+.stars:hover {
+	cursor: pointer;
+    color: #fedc18;
+
+}
+
+.largehr {
+    border: 1px solid;
+    opacity: 0.50;
+}
+.color {
+    font-weight: bold;
+
+}
+
+@media(min-width: 991px) {
+    .largescreen {
+        background-size: 100%;
+        background-position: center;
+    }
+    .largehr {
+        border: 0;
+    }
+    .vh100 {
+        align-items: center;
+        height: 100vh;
+    }
+    .color {
+        color: white;
+    }
+    .formBackground {
+        background-color: rgba(15, 10, 222, 0.25);
+    }
+}
+@media(min-width: 1550px) {
+    .largescreen {
+        background-position: top;
+    }
+}

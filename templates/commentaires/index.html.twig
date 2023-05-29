@@ -1,0 +1,177 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CommentairesController!
+{% endblock %}
+
+{% block body %}
+
+	{# <div class="container mx-5 justify-content-md-center"> #}
+	<div class='container-fluid'>
+		<div class="row">
+			<div class="d-flex justify-content-center vh100 col col-md-12 col-lg-6 order-md-1 order-lg-2">
+				<div class="formBackground w-75 p-5">
+					{{form_start(formCommentaire)}}
+					<div class="row d-flex">
+
+						<div class="color col form-group text-center py-1">
+							<label for="">Titre</label>
+						</div>
+						<div class="col py-1">
+							{{form_widget(formCommentaire.titre)}}
+						</div>
+					</div>
+					<div class="row my-3">
+						<div class=" color col form-group text-center py-1">
+							<label>Commentaire</label>
+							{# {{ form_errors(formCommentaire) }} #}
+						</div>
+						<div class="col py-1">
+							{{form_widget(formCommentaire.texte | raw)}}
+						</div>
+					</div>
+					<div class="row my-3">
+						<div class="color col form-group text-center py-1">
+							<label>Pseudo</label>
+						</div>
+						<div class="col py-1">
+							{{form_widget(formCommentaire.pseudo)}}
+						</div>
+					</div>
+					<div class="row my-3">
+						<div class="color col form-group text-center py-1">
+							<label>Email</label>
+						</div>
+						<div class="col py-1">
+							{{form_widget(formCommentaire.email)}}
+						</div>
+					</div>
+					<div class="row my-3">
+						<div class="color col form-group text-center py-1">
+							<label>Note</label>
+						</div>
+						<div class="col py-1 stars">
+							<i class="star stargrey fa-regular fa-star " data-index="0"></i>
+							<i class="star stargrey fa-regular fa-star" data-index="1"></i>
+							<i class="star stargrey fa-regular fa-star" data-index="2"></i>
+							<i class="star stargrey fa-regular fa-star" data-index="3"></i>
+							<i class="star stargrey fa-regular fa-star" data-index="4"></i>
+						</div>
+					</div>
+					<div class="row my-3">
+						<div class="color col form-group text-center py-1">
+							<label for="">Photos</label>
+						</div>
+						<div class="col py-1">
+							<div class="py-1">
+								{{form_widget(formCommentaire.photos1)}}
+							</div>
+							<div class="py-1">
+								{{form_widget(formCommentaire.photos2)}}
+							</div>
+							<div class="py-1">
+								{{form_widget(formCommentaire.photos3)}}
+							</div>
+							<div class="py-1">
+								{{form_widget(formCommentaire.photos4)}}
+							</div>
+							<div class="py-1">
+								{{form_widget(formCommentaire.photos5)}}
+							</div>
+						</div>
+						<div class="py-1">
+							{{form_widget(formCommentaire.note)}}
+						</div>
+					</div>
+					<div
+						class="row d-flex">
+						{# <div class='color justify-content-center'>{{form_widget(formCommentaire.save)}}</div> #}
+						<button type="submit" class="btn btn-success">publier</button>
+					</div>
+					{{form_end(formCommentaire)}}
+				</div>
+				<style></style>
+			</div>
+			<div class="col col-12 col-lg-6 order-md-2 order-lg-1 ">
+				<div>
+					<p class="pt-2">
+						<label>Trier par :</label>
+						{# {{ dump(order) }} #}
+						{% if order == 'null'%}
+							<a href="{{ path('home',{'order': 'date','note': note}) }}" type="button" class="btn btn-success">date</a>
+						{% elseif order != 'null'%}
+							<a href="{{ path('home',{'order': 'null', 'note': note }) }}" type="button" class="btn btn-success">date</a>
+						{% endif %}
+
+						{% if order == 'note'%}
+							<a href="{{ path('home',{'order': 'noteinverse'}) }}" type="button" class="btn btn-success">note</a>
+						{% elseif order != 'note'%}
+							<a href="{{ path('home',{'order': 'note'}) }}" type="button" class="btn btn-success">note</a>
+						{% endif %}
+
+
+					</p>
+					<p>
+						<label>
+							Filtrer par :</label>
+
+						<select class="btn btn-success" id='recherche' name='recherche' onchange="window.location.href=this.value">
+							<option selected="true" disabled="disabled" hidden>
+								{% if note != 'null'%}
+									{{note}}{% else %}note
+								{% endif %}
+							</option>
+							<OPTION name="1" value={% if (order != 'null') and (order != 'note') and (order != 'noteinverse')%} '/{{order}}/1' {% else %} '/0/1' {% endif %}>1</option>
+							<option name="2" value={% if (order != 'null') and (order != 'note') and (order != 'noteinverse')%} '/{{order}}/2' {% else %} '/0/2' {% endif %}>2</option>
+							<option name="3" value={% if (order != 'null') and (order != 'note') and (order != 'noteinverse')%} '/{{order}}/3' {% else %} '/0/3' {% endif %}>3</option>
+							<option name="4" value={% if (order != 'null') and (order != 'note') and (order != 'noteinverse')%} '/{{order}}/4' {% else %} '/0/4' {% endif %}>4</option>
+							<option name="5" value={% if (order != 'null') and (order != 'note') and (order != 'noteinverse')%} '/{{order}}/5' {% else %} '/0/5' {% endif %}>5</option>
+							<option name="5" value={% if (order != 'null') and (order != 'note') and (order != 'noteinverse')%} '/{{order}}/' {% else %} '/' {% endif %}>tout</option>
+						</select>
+					</p>
+
+					{% for commentaire in commentaires %}
+						<h2>{{commentaire.titre}}</h2>
+						<p class="fst-italic text-muted metadata">
+							Ecrit le
+							{{commentaire.creationDate | date('d/m/Y')}}
+							à
+							{{commentaire.creationDate | date('H:i')}}
+							par
+							{{commentaire.pseudo}}
+							<div class="py-1 m-0 notes" id='{{commentaire.id}}' name='{{commentaire.id}}'>
+								<p value='{{commentaire.note}}'>{{commentaire.note}}</p>
+
+
+								{% for i in 1..5 %}
+									{% if (i <= commentaire.note) %}
+										<i class="star yellow fa-solid fa-star" name='star{{commentaire.id}}'></i>
+									{% else %}
+										<i class="star stargrey fa-regular fa-star" name='star{{commentaire.id}}'></i>
+									{% endif  %}
+								{% endfor %}
+							</div>
+						</p>
+						<div>
+							<pre style="white-space: pre-wrap">{{commentaire.texte}}</pre>
+						</div>
+						<div class="container">
+
+							{%set position = 0 %}
+							<div class="row">
+								{% for photo in commentaire.photos %}
+									<div class="col w-50"><img class="mw-100" src=" {{ asset('images/' ~ photo.link ) }} " " "></div>
+								{% endfor %}
+							</div>
+						</div>
+
+
+						<hr style="border: 1px solid black">
+
+
+					{% endfor %}
+
+
+				</div>
+			</div>
+		</div>
+	{% endblock %}
